@@ -29,31 +29,30 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/api/predict", PredictionResponse (PredictionRequest request, HybridCache cache, CancellationToken cancellationToken) =>
-{
-    cache.GetOrCreateAsync("", (_) => ValueTask.FromResult(""));
-    return cache.GetOrCreateAsync(
-        key: request.Input,
-        factory:(ctx) => new ValueTask( GetResponse(request.Input, cancellationToken),
-            options: null,
-            ta
-    );
-});
+app.MapPost("/api/predict",
+    async (PredictionRequest request, HybridCache cache, CancellationToken cancellationToken) =>
+    {
+        var value = await cache.GetOrCreateAsync(request.Input, GetResponse, cancellationToken: cancellationToken);
+        return PostProcessResponse(value);
+    });
 
-PredictionResponse PostProcessResponse(string s)
-{
-    
-}
-static async Task<PredictionResponse> GetResponse(string input, CancellationToken cancellationToken)
-{
-    await Task.Delay(500);
-    return
+await app.RunAsync();
+return;
+
+PredictionResponse PostProcessResponse(string s) => s == "Response"
+    ?
     [
         new(0, 8, "B-TYPE"),
         new(9, 15, "I-TYPE")
-    ];
+    ]
+    : [];
+
+static async ValueTask<string> GetResponse(CancellationToken cancellationToken)
+{
+    await Task.Delay(500, cancellationToken);
+    return "Response";
 }
 
-await app.RunAsync();
 sealed record PredictionRequest(string Input);
+
 sealed record PredictionItem(int StartIndex, int EndIndex, string Entity);
