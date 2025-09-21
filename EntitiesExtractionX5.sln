@@ -6,6 +6,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitiesExtractionX5.AppHos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntitiesExtractionX5.ServiceDefaults", "EntitiesExtractionX5.ServiceDefaults\EntitiesExtractionX5.ServiceDefaults.csproj", "{25A67899-5FC7-451D-B836-3A8DEFD407DA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{33B0EC54-5251-4A8A-9A37-872D54C2FDE3}"
+	ProjectSection(SolutionItems) = preProject
+		Directrory.Build.props = Directrory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

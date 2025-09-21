@@ -1,8 +1,34 @@
+using System.Numerics;
+using System.Text;
 using System.Text.Json;
-using Microsoft.Extensions.Caching.Distributed;
+using Api;
 using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.ML;
+using Microsoft.Extensions.Options;
+using Microsoft.ML;
+using Microsoft.ML.Data;
+using Microsoft.ML.OnnxRuntime;
+using Microsoft.ML.OnnxRuntime.Tensors;
+using Microsoft.ML.Transforms.Onnx;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var modelPath = Path.Combine(builder.Environment.WebRootPath, "seq2seq_model.onnx");
+var mlModelPath = Path.Combine(builder.Environment.WebRootPath, "smyShitModel.zip");
+var vocabPath = Path.Combine(builder.Environment.WebRootPath, "vocab.json");
+var onnxModelConfigurator = new OnnxModelConfigurator(new MyShitModel()
+{
+    ModelPath = modelPath,
+    ModelInput = "input",
+    ModelOutput = "output",
+});
+
+onnxModelConfigurator.SaveMLNetModel(mlModelPath);
+
+builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>()
+    .FromFile(mlModelPath);
+    
 
 builder.AddServiceDefaults();
 
@@ -29,6 +55,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapGet("/api/test", (string query, PredictionEnginePool<ModelInput, ModelOutput> pool) =>
+{
+    var result = pool.Predict(new ModelInput() { Input = query.Select(c => (long)c).ToArray() });
+    return result;
+});
+
 app.MapPost("/api/predict",
     async (PredictionRequest request, HybridCache cache, CancellationToken cancellationToken) =>
     {
@@ -53,6 +85,14 @@ static async ValueTask<string> GetResponse(CancellationToken cancellationToken)
     return "Response";
 }
 
-sealed record PredictionRequest(string Input);
+public class ModelInput
+{
+    [ColumnName("input")]
+    public long[] Input { get; set; } = [];
+}
 
-sealed record PredictionItem(int StartIndex, int EndIndex, string Entity);
+public class ModelOutput
+{
+    [ColumnName("output")] 
+    public VBuffer<float> Output { get; set; } = default;
+}
