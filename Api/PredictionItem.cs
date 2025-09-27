@@ -1,1 +1,1 @@
-public sealed record PredictionItem(int StartIndex, int EndIndex, string Entity);
+public sealed record PredictionItem(long StartIndex, long EndIndex, string Entity);
