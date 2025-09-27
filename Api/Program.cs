@@ -5,12 +5,12 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // builder.Services.AddLogging();
-// builder.Logging.AddFilter("CSnakes", LogLevel.Debug);
+builder.Logging.AddFilter("CSnakes", LogLevel.Information);
 builder.Services.AddOpenApi();
 
 var home = Path.Join(builder.Environment.ContentRootPath, "python");
 var venv = Path.Join(home, "venv");
-var modelPath = Path.Join(builder.Environment.WebRootPath, "custom_ru_core_news_lg_with_9_labels_50_epochs");
+var modelPath = Path.Join(builder.Environment.ContentRootPath, "model");
 builder.Services.WithPython()
     .WithHome(home)
     .WithVirtualEnvironment(venv)
@@ -38,11 +38,27 @@ using (var scope = app.Services.CreateScope())
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
     logger.LogInformation("Python home path {Home}", home);
     logger.LogInformation("Current Directory: {CurrentDirectory}", Environment.CurrentDirectory);
-    logger.LogInformation("wwwroot path {WwwRoot}", app.Environment.WebRootPath);
+    // logger.LogInformation("wwwroot path {WwwRoot}", app.Environment.WebRootPath);
     logger.LogInformation("current root path {CurrentRoot}", app.Environment.ContentRootPath);
     logger.LogInformation("venv path {Venv}", venv);
     logger.LogInformation("model path {ModelPath}", modelPath);
-    scope.ServiceProvider.GetRequiredService<IModel>().Initialize(modelPath);
+    try
+    {
+        scope.ServiceProvider.GetRequiredService<IModel>().Initialize(modelPath);
+    }
+    catch (PythonInvocationException ex)
+    {
+        logger.LogError(ex, "Python invocation exception");
+        if (ex.InnerException is PythonRuntimeException pythonRuntimeException)
+        {
+            logger.LogError("{Message}", pythonRuntimeException.Message);
+            foreach (var stackTraceItem in pythonRuntimeException.PythonStackTrace)
+            {
+                logger.LogInformation(stackTraceItem);
+            }
+        }
+        throw;
+    }
 } 
 
 app.MapDefaultEndpoints();

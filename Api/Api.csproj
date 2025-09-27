@@ -6,9 +6,6 @@
         <WarningsAsErrors>nullable</WarningsAsErrors>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <DefaultPythonItems>true</DefaultPythonItems>
-        <PythonRoot>python</PythonRoot>
-<!--        <EmbedPythonSources>true</EmbedPythonSources>-->
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,10 +25,6 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
-<!--      <Content Update="Python\predict_module.py">-->
-<!--        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>-->
-<!--        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>-->
-<!--      </Content>-->
     </ItemGroup>
 
     <ItemGroup>
@@ -47,52 +40,15 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+
+    <PropertyGroup>
+        <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    </PropertyGroup>
     
     <ItemGroup>
-      <Folder Include="wwwroot\" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\attribute_ruler\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\attribute_ruler\patterns" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\config.cfg" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\lemmatizer\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\lemmatizer\lookups\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\lemmatizer\lookups\lookups.bin" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\meta.json" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\morphologizer\cfg" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\morphologizer\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\morphologizer\model" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\ner\cfg" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\ner\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\ner\model" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\ner\moves" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\parser\cfg" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\parser\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\parser\model" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\parser\moves" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\senter\cfg" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\senter\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\senter\model" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\tok2vec\cfg" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\tok2vec\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\tok2vec\model" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\tokenizer" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\vocab\desktop.ini" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\vocab\key2row" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\vocab\lookups.bin" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\vocab\strings.json" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\vocab\vectors" />
-      <_ContentIncludedByDefault Remove="wwwroot\custom_ru_core_news_lg_with_9_labels_50_epochs\vocab\vectors.cfg" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\pymorphy3_dicts_ru\data\grammemes.json" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\pymorphy3_dicts_ru\data\gramtab-opencorpora-ext.json" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\pymorphy3_dicts_ru\data\gramtab-opencorpora-int.json" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\pymorphy3_dicts_ru\data\meta.json" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\pymorphy3_dicts_ru\data\suffixes.json" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\setuptools\config\distutils.schema.json" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\setuptools\config\setuptools.schema.json" />
-      <_ContentIncludedByDefault Remove="python\venv\Lib\site-packages\srsly\tests\ujson\334-reproducer.json" />
+        <Content Include="model/**">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>
